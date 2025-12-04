@@ -18,8 +18,14 @@ export default defineConfig(({ mode }) => {
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),
+          'react': path.resolve(__dirname, 'node_modules/react'),
+          'react-dom': path.resolve(__dirname, 'node_modules/react-dom')
         },
         dedupe: ['react', 'react-dom']
+      },
+      optimizeDeps: {
+        include: ['react', 'react-dom'],
+        force: true
       },
       build: {
         outDir: 'dist',
@@ -31,11 +37,12 @@ export default defineConfig(({ mode }) => {
             manualChunks: (id) => {
               // Split vendor chunks
               if (id.includes('node_modules')) {
+                // Ensure React is in its own chunk
+                if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+                  return 'react';
+                }
                 if (id.includes('three') || id.includes('@react-three')) {
                   return 'three';
-                }
-                if (id.includes('react') || id.includes('react-dom')) {
-                  return 'react';
                 }
                 if (id.includes('@google/genai')) {
                   return 'gemini';
@@ -43,7 +50,8 @@ export default defineConfig(({ mode }) => {
                 return 'vendor';
               }
             }
-          }
+          },
+          external: []
         },
         // Ensure proper asset handling
         assetsInlineLimit: 4096
