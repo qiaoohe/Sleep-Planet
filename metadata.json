@@ -1,0 +1,5 @@
+{
+  "name": "Sleep Planet",
+  "description": "A 3D interactive sleep tracking visualization app. Explore your sleep patterns as a particle planet or a chronological timeline, powered by Gemini insights.",
+  "requestFramePermissions": []
+}
