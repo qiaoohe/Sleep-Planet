@@ -29,13 +29,15 @@ const App: React.FC = () => {
   useEffect(() => {
     try {
       // Check if user is logged in (in real app, check localStorage or auth token)
-      const savedUser = localStorage.getItem('sleepPlanet_user');
-      if (savedUser) {
-        try {
-          setUser(JSON.parse(savedUser));
-        } catch (e) {
-          console.error('Error parsing saved user:', e);
-          localStorage.removeItem('sleepPlanet_user');
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const savedUser = localStorage.getItem('sleepPlanet_user');
+        if (savedUser) {
+          try {
+            setUser(JSON.parse(savedUser));
+          } catch (e) {
+            console.error('Error parsing saved user:', e);
+            localStorage.removeItem('sleepPlanet_user');
+          }
         }
       }
       // Allow browsing without login - only prompt when user wants to participate

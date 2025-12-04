@@ -43,7 +43,9 @@ export default defineConfig(({ mode }) => {
               }
             }
           }
-        }
+        },
+        // Ensure proper asset handling
+        assetsInlineLimit: 4096
       }
     };
 });
