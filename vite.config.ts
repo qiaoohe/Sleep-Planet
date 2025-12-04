@@ -37,8 +37,23 @@ export default defineConfig(({ mode }) => {
             manualChunks: (id) => {
               // Split vendor chunks
               if (id.includes('node_modules')) {
-                // Ensure React is in its own chunk
-                if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+                // Ensure React and all React-dependent packages are in react chunk
+                // This includes all packages that import from 'react'
+                if (
+                  id.includes('react') || 
+                  id.includes('react-dom') || 
+                  id.includes('scheduler') ||
+                  id.includes('react-jsx-runtime') ||
+                  id.includes('@react-spring') ||
+                  id.includes('@use-gesture') ||
+                  id.includes('zustand') ||
+                  id.includes('tunnel-rat') ||
+                  id.includes('suspend-react') ||
+                  id.includes('react-composer') ||
+                  id.includes('lucide-react') ||
+                  id.includes('its-fine') ||
+                  id.includes('prop-types')
+                ) {
                   return 'react';
                 }
                 if (id.includes('three') || id.includes('@react-three')) {
@@ -47,6 +62,7 @@ export default defineConfig(({ mode }) => {
                 if (id.includes('@google/genai')) {
                   return 'gemini';
                 }
+                // Only put truly non-React dependencies in vendor
                 return 'vendor';
               }
             }
