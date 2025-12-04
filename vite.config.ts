@@ -24,9 +24,24 @@ export default defineConfig(({ mode }) => {
         outDir: 'dist',
         assetsDir: 'assets',
         sourcemap: false,
+        chunkSizeWarningLimit: 1000,
         rollupOptions: {
           output: {
-            manualChunks: undefined
+            manualChunks: (id) => {
+              // Split vendor chunks
+              if (id.includes('node_modules')) {
+                if (id.includes('three') || id.includes('@react-three')) {
+                  return 'three';
+                }
+                if (id.includes('react') || id.includes('react-dom')) {
+                  return 'react';
+                }
+                if (id.includes('@google/genai')) {
+                  return 'gemini';
+                }
+                return 'vendor';
+              }
+            }
           }
         }
       }
