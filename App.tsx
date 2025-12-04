@@ -173,8 +173,6 @@ const App: React.FC = () => {
     }
   };
 
-  // Debug log
-  console.log('App rendering:', { dataLength: data.length, user: user?.username, currentView });
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-space-900 text-white font-sans selection:bg-purple-500/30">
